@@ -1,0 +1,101 @@
+<%- include ("../partials/header"); -%>
+
+<div class="container" style="margin-top: 30px;">
+<div class="row">
+  <div class="col-md-3">
+    <h3 class="lead">YelpCamp</h3>
+    <div class="list-group">
+      <li class="list-group-item active">1st</li>
+      <li class="list-group-item">2nd</li>
+      <li class="list-group-item">3rd</li>
+    </div>
+    <p></p>
+   <!-- <div class="mapouter"><div class="gmap_canvas"><iframe width="600" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=jodhpur,rajasthan&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://123movies-to.org"></a><br><style>.mapouter{position:relative;text-align:right;height:500px;width:600px;}</style><a href="https://www.embedgooglemap.net">use google maps on website</a><style>.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:600px;}</style></div></div>-->
+  </div>
+  <div class="col-md-9">
+    <div class="img-thumbnail">
+        <img class="img-fluid" src="<%= found.url %>">
+        <div class="caption">
+          <h4 class="float-right">$<%= found.price %>/Night</h4>
+          <h4><a href="#"><%= found.name %></a></h4> 
+          <p><%= found.description %></p>
+           <p class="text-muted">
+             Submitted By <%= found.author.username %>
+         </p>
+        <p>
+        <% if(currentUser && found.author.id.equals(currentUser._id)) { %>
+        <form action='/campgrounds/<%= found._id %>?_method=DELETE' method="POST">
+        <a href='/campgrounds/<%= found._id %>/edit' class="btn btn-outline-info float-right">Edit Camp</a>
+        <button class="btn btn-outline-danger" >Delete Camp</button>
+        </form>
+        <% } %>
+        </p>
+        </div>
+     </div>
+       <p></p>
+     <div class="card card-body bg-light">
+            <div class="card-header">Comments</div>
+
+            <p></p>
+            <p><a href="/campgrounds/<%= found._id %>/comments/new" class="btn btn-md btn-success float-right">Leave a Comment</a></p>
+            <hr >
+             <div class="row">
+               <div class="col-md-12">
+
+                 <% found.Comment.forEach(function(comment){ %>
+                 <strong><%= comment.author.username %>
+              <% if(currentUser && comment.author.id.equals(currentUser._id)){ %> 
+                 <div class="btn-group dropright">
+                  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" 
+                  aria-expanded="false" style="background: border-box; margin-bottom: 5px;"></button> 
+                   <div class="dropdown-menu">
+                    <a class="dropdown-item" href='/campgrounds/<%= found._id %>/comments/<%= comment._id%>/edit'>
+                    Edit
+                    </a>
+                    <form action="/campgrounds/<%=found._id%>/comments/<%=comment._id%>/delete/?_method=DELETE" id='form' method="POST">
+                    <a class="dropdown-item" onclick="document.getElementById('form').submit()" href="#">Delete</a>
+                    </form>
+                   </div>
+                 </div>
+              <% } %>
+                 </strong>
+                 <span class="float-right"><%= dayjs(comment.createdAt).fromNow()  %></span>
+                 <p><%= comment.text %></p>
+                 <% }); %>
+                 
+               </div>
+             </div>
+      </div>
+    
+    </div>
+   </div>
+  </div>
+<script>
+  function initMap() {
+    var lat = 73.0243;//<%= found.lat %>
+    var lng = 26.2389;//<%= found.lng %>
+    var center = {lat: lat, lng: lng };
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: center,
+        scrollwheel: false
+    });
+    var contentString = `
+      <strong><%= found.name %><br />
+      <%= found.location %></strong>
+      <p><%= found.description %></p>
+    `
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    var marker = new google.maps.Marker({
+        position: center,
+        map: map
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7_PcodF99zQ9eO5hIOSODTl5BdPUUrFc&callback=initMap"></script>
+<%- include ("../partials/footer"); -%>

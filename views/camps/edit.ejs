@@ -1,0 +1,38 @@
+<%- include ('../partials/header') %>
+
+<div class="container" style="margin:10% auto; width:40%; background: transparent;">
+
+<h1 style="margin-left:50px;">Edit <%= found.name %></h1>
+
+<form action="/campgrounds/<%= found._id %>?_method=PUT" method="POST">
+
+<div class="form-group">
+<label for="camp"><h4>Name</h4></label>
+<input type="text" class="form-control" name="camps[name]" id="camp" placeholder="Add Camp Ground" value="<%= found.name %>" style="width : 80%;">
+</div>
+
+<div class="form-group">
+<label for="url"><h4>Enter Url</h4></label>
+<input type="text" id="url" class="form-control" name="camps[url]" placeholder="Add image url" value="<%= found.url %>" style="width : 80%;">
+</div>
+
+<div class="form-group">
+<label for="location"><h4>Where it is at</h4></label>
+<input type="text" id="location" class="form-control" name="camps[location]" value="<%= found.location %>" placeholder="location" rows="3" style="width : 80%;">
+</div>
+
+<div class="form-group">
+<label for="price"><h4>Price</h4></label>
+<input type="number" id="location" class="form-control" name="camps[price]" value="<%= found.price %>"  step="0.01" placeholder="$Price/Night" min="0.01" style="width : 80%;">
+</div>
+
+<div class="form-group">
+<label for="des"><h4>Tell us more about Camp</h4></label>
+<textarea type="text" name="camps[description]" placeholder="Description" rows="10" cols="55" id="des"> <%= found.description %> </textarea>
+</div>
+<div class="form-group">
+<button class="btn btn-info btn-lg" style="margin:10px 30%;">Submit</button>
+</div>
+</form>
+
+</div>
