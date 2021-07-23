@@ -17,7 +17,13 @@ Comments Section:
 ![alt text](com.JPG)
 
 Flash Messages:
+
 ![alt text](flash.JPG)
+
+Also has mobile support with hamburger menu-
+
+![alt text](2.JPG)
+
 
 ## Features
 * Users can create, edit, and remove campgrounds
